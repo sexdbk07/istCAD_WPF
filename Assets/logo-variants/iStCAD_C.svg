@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="t">
+  <title id="t">iStCAD - hex badge</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D5572B"/><stop offset="1" stop-color="#AA3811"/></linearGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3D1"/><stop offset="1" stop-color="#FFC978"/></linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#tile)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="5"/>
+  <path d="M128 30 214 79V177L128 226 42 177V79Z" fill="#FFFFFF"/>
+  <g transform="translate(-6 0)">
+    <g stroke="#C2481D" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M66 118V186" stroke-width="14"/>
+      <path d="M148 120H106V150H148V180H100" stroke-width="13"/>
+      <path d="M186 100V166Q186 182 202 182M166 126H206" stroke-width="13"/>
+    </g>
+    <path d="M66 88 78 100 66 112 54 100Z" fill="#F0763F"/>
+  </g>
+</svg>

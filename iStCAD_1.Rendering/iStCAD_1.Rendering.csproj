@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>iStCAD_1.Rendering</RootNamespace>
+    <AssemblyName>iStCAD_1.Rendering</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../iStCAD_1.Core/iStCAD_1.Core.csproj" /></ItemGroup>
+</Project>

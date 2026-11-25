@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 180" role="img" aria-labelledby="t">
+  <title id="t">iStCAD logo</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D5572B"/><stop offset="1" stop-color="#AA3811"/></linearGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3D1"/><stop offset="1" stop-color="#FFC978"/></linearGradient>
+  </defs>
+  <g transform="translate(4 4) scale(.67)">
+    <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#tile)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="5"/>
+    <g transform="translate(128 128) scale(.82) translate(-128 -128)">
+    <g fill="none" stroke-linejoin="round" stroke-linecap="round" stroke="#FFFFFF">
+      <path d="M128 34 208 78V176L128 222 48 176V78Z" stroke-width="13"/>
+      <path d="M48 78 128 126 208 78M128 126V222" stroke-width="13"/>
+      <path d="M88 142V184" stroke-width="14"/>
+      <path d="M184 130C158 124 148 146 167 156 186 166 178 188 151 184" stroke-width="12"/>
+    </g>
+    <circle cx="88" cy="116" r="11" fill="url(#spark)"/>
+  </g>
+  </g>
+  <text x="190" y="111" fill="#F3F5F7" font-family="Segoe UI, Arial, sans-serif" font-size="83" font-weight="700" letter-spacing="-4">iSt<tspan fill="#F0763F">CAD</tspan></text>
+  <text x="198" y="151" fill="#AEB9C2" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="7">COMPUTER AIDED DESIGN</text>
+</svg>

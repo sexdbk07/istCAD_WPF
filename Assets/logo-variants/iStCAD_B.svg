@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="t">
+  <title id="t">iStCAD - monogram</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D5572B"/><stop offset="1" stop-color="#AA3811"/></linearGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3D1"/><stop offset="1" stop-color="#FFC978"/></linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#tile)"/>
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="5"/>
+  <g stroke="#FFFFFF" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M62 112V190" stroke-width="15"/>
+    <path d="M150 112H104V148H150V184H98" stroke-width="14"/>
+    <path d="M190 94V172Q190 186 206 186M168 122H210" stroke-width="14"/>
+  </g>
+  <path d="M62 80 76 94 62 108 48 94Z" fill="url(#spark)"/>
+  <g stroke="#FFE2A6" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"><path d="M54 214H208M54 205V223M208 205V223"/></g>
+</svg>

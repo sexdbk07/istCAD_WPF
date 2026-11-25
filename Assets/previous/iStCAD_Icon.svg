@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">iStCAD</title>
+  <rect x="12" y="12" width="232" height="232" rx="40" fill="#202832" stroke="#596774" stroke-width="8"/>
+  <path d="M48 79 128 37l80 42v98l-80 43-80-43Z" fill="none" stroke="#55C7C0" stroke-width="12" stroke-linejoin="round"/>
+  <path d="m48 79 80 47 80-47M128 126v94" fill="none" stroke="#55C7C0" stroke-width="12" stroke-linejoin="round"/>
+  <path d="m91 105 37 22 37-22M128 127v48" fill="none" stroke="#E8ECEE" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="199" cy="58" r="13" fill="#F2A56F"/>
+</svg>

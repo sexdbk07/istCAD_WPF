@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>iStCAD_1</RootNamespace>
+    <AssemblyName>iStCAD_1</AssemblyName>
+    <ApplicationIcon>Assets\iStCAD_Icon.ico</ApplicationIcon>
+    <BuildCounterFile>$(MSBuildProjectDirectory)\build-number.txt</BuildCounterFile>
+    <BuildCounter Condition="Exists('$(BuildCounterFile)')">$([System.IO.File]::ReadAllText('$(BuildCounterFile)'))</BuildCounter>
+    <BuildCounter Condition="'$(BuildCounter)' == ''">0</BuildCounter>
+    <NextBuildCounter>$([MSBuild]::Add($([System.Int32]::Parse('$(BuildCounter)')), 1))</NextBuildCounter>
+    <Version>1.0.233</Version>
+    <ServerGarbageCollector>false</ServerGarbageCollector>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <TieredPGO>true</TieredPGO>
+    <TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
+    <!-- AssemblyVersion must stay FIXED, not auto-incremented: WPF bakes the assembly's version into its compiled
+         XAML resource URIs (BAML) at markup-compile time, and if the final EXE ends up with a different
+         AssemblyVersion than what was baked in during that step (easy to happen with a counter read from a file
+         that a build target rewrites mid-build), loading any XAML (App.xaml, MainWindow.xaml...) throws
+         System.IO.FileNotFoundException for "iStCAD_1, Version=..." at startup, even though compiling succeeded.
+         Only FileVersion (purely informational, never used for binding/resource lookup) is safe to auto-increment. -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.$(NextBuildCounter)</FileVersion>
+    <InformationalVersion>v$(Version)</InformationalVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Keep the managed heap below 75% of physical RAM: an OutOfMemoryException (reported by Open) instead of paging the whole PC to a halt. -->
+    <RuntimeHostConfigurationOption Include="System.GC.HeapHardLimitPercent" Value="75" />
+    <!-- Keep freed memory instead of returning it to the OS and re-faulting it on the next frame. -->
+    <RuntimeHostConfigurationOption Include="System.GC.RetainVM" Value="true" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Native SIMD line rasterizer for dense/draft frames (falls back to the CPU Bresenham plot when the native library cannot load). -->
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <ProjectReference Include="iStCAD_1.Core/iStCAD_1.Core.csproj" />
+    <ProjectReference Include="iStCAD_1.Application/iStCAD_1.Application.csproj" />
+    <ProjectReference Include="iStCAD_1.Infras/iStCAD_1.Infras.csproj" />
+    <ProjectReference Include="iStCAD_1.Rendering/iStCAD_1.Rendering.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Child project and vendored source files are built by their own projects. -->
+    <Compile Remove="iStCAD_1.Core/**/*.cs;iStCAD_1.Application/**/*.cs;iStCAD_1.Infras/**/*.cs;iStCAD_1.Rendering/**/*.cs;vendor/**/*.cs;**/obj/**/*.cs;**/bin/**/*.cs" />
+    <!-- WPF SDK also globs nested XAML as Page items; child project XAML must compile only in its owning assembly. -->
+    <Page Remove="iStCAD_1.Core/**/*.xaml;iStCAD_1.Application/**/*.xaml;iStCAD_1.Infras/**/*.xaml;iStCAD_1.Rendering/**/*.xaml;vendor/**/*.xaml;**/obj/**/*.xaml;**/bin/**/*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\iStCAD_Logo.svg" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\iStCAD_Icon.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Resource Include="Assets\iStCAD_Icon.ico" />
+  </ItemGroup>
+  <Target Name="IncrementBuildVersion" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true'">
+    <WriteLinesToFile File="$(BuildCounterFile)" Lines="$(NextBuildCounter)" Overwrite="true" />
+  </Target>
+
+  <!-- Optional Rust "heavy file" native engine (native/istcad_native): spatial index + rasterizer
+       for smoother/more accurate zoom on large drawings. The app runs fine without it (NativeEngine.cs
+       falls back gracefully whenever istcad_native.dll is missing), so this step never fails the
+       build - it just builds the DLL automatically when Rust is installed, and otherwise prints one
+       message explaining how to enable it. See native/istcad_native/README.md. -->
+  <Target Name="BuildNativeEngine" BeforeTargets="Build" Condition="'$(DesignTimeBuild)' != 'true' and '$(IsCrossTargetingBuild)' != 'true'">
+    <Exec Command="where cargo" ContinueOnError="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="CargoCheckExitCode" />
+    </Exec>
+    <Message Condition="'$(CargoCheckExitCode)' != '0'" Importance="high"
+      Text="iStCAD: Rust 'cargo' was not found on PATH - skipping the optional native heavy-file engine. Install Rust (https://rustup.rs) and rebuild to enable it (NATIVESTATUS command reports its status); the app works fully without it." />
+    <Exec Condition="'$(CargoCheckExitCode)' == '0'" Command="cargo build --release"
+      WorkingDirectory="$(MSBuildProjectDirectory)\native\istcad_native" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="CargoBuildExitCode" />
+    </Exec>
+    <Message Condition="'$(CargoCheckExitCode)' == '0' and '$(CargoBuildExitCode)' != '0'" Importance="high"
+      Text="iStCAD: 'cargo build --release' for the native heavy-file engine failed (exit code $(CargoBuildExitCode)) - continuing without it. Run it manually in native\istcad_native to see the error." />
+    <ItemGroup Condition="'$(CargoCheckExitCode)' == '0' and '$(CargoBuildExitCode)' == '0'">
+      <NativeEngineDll Include="$(MSBuildProjectDirectory)\native\istcad_native\target\release\istcad_native.dll" />
+    </ItemGroup>
+    <Copy Condition="'$(CargoCheckExitCode)' == '0' and '$(CargoBuildExitCode)' == '0' and '@(NativeEngineDll)' != ''"
+      SourceFiles="@(NativeEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

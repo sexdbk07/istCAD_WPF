@@ -1,0 +1,43 @@
+﻿name: Build iStCAD Windows x64
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "iStCAD_1-WPF.csproj"
+      - "iStCAD_1.Core/**"
+      - "iStCAD_1.Application/**"
+      - "iStCAD_1.Infras/**"
+      - "iStCAD_1.Rendering/**"
+      - "MainWindow*.cs"
+      - "*.xaml"
+      - "vendor/**"
+      - "build-windows.ps1"
+      - ".github/workflows/build-windows.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish self-contained Windows x64 app
+        shell: pwsh
+        run: .\build-windows.ps1
+
+      - name: Upload EXE package
+        uses: actions/upload-artifact@v4
+        with:
+          name: iStCAD_1-v1.0.52-win-x64
+          path: artifacts/iStCAD_1-v1.0.52-win-x64.zip
+          if-no-files-found: error
+          retention-days: 14

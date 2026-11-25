@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>13.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../iStCAD_1.Core/iStCAD_1.Core.csproj" />
+    <ProjectReference Include="../iStCAD_1.Application/iStCAD_1.Application.csproj" />
+    <Compile Include="../vendor/ACadSharp/src/ACadSharp/**/*.cs"
+             Exclude="../vendor/ACadSharp/src/ACadSharp/**/bin/**/*.cs;../vendor/ACadSharp/src/ACadSharp/**/obj/**/*.cs" />
+  </ItemGroup>
+  <Import Project="../vendor/ACadSharp/src/CSUtilities/CSMath/CSMath.projitems" Label="Shared" />
+  <Import Project="../vendor/ACadSharp/src/CSUtilities/CSUtilities/CSUtilities.projitems" Label="Shared" />
+</Project>

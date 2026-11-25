@@ -1,0 +1,22 @@
+[package]
+name = "istcad_native"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# No external dependencies on purpose: this crate must build offline, both on the
+# developer's machine and in restricted sandboxes, and it keeps the dependency-free
+# promise documented in README.md.
+[dependencies]
+
+[lib]
+name = "istcad_native"
+# cdylib -> native DLL/.so consumed by the WPF app via P/Invoke.
+# rlib   -> lets `cargo test` link and run the unit tests below.
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

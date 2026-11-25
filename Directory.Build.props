@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Keep build outputs beside the solution; leave intermediate files in each project's standard obj folder. -->
+    <BaseOutputPath>$(MSBuildThisFileDirectory)_Build/bin/</BaseOutputPath>
+  </PropertyGroup>
+</Project>

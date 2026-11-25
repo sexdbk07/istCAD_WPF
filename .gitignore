@@ -1,0 +1,5 @@
+.vs/
+_Build/
+**/bin/
+**/obj/
+native/istcad_native/target/
